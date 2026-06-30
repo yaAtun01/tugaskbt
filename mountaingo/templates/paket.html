@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Pilihan Paket Trip - MountainGo Bromo Trip{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container text-center">
+        <span class="badge badge-primary">Daftar Harga & Paket</span>
+        <h1 class="section-title">Pilih Paket Bromo Trip</h1>
+        <p class="section-desc">Pilih paket perjalanan yang paling sesuai dengan kebutuhan liburan Anda, mulai dari open trip reguler hingga private luxury trip.</p>
+        
+        <div class="packages-grid">
+            
+            <!-- Paket 1: Reguler (Open Trip) -->
+            <div class="package-card">
+                <div class="package-badge">Open Trip</div>
+                <div class="package-header">
+                    <h3>Paket Reguler</h3>
+                    <p class="package-price">Rp 350.000 <span>/ pax</span></p>
+                    <p class="package-duration"><i class="fa-regular fa-clock"></i> 1 Hari (Mulai Tengah Malam)</p>
+                </div>
+                <div class="package-body">
+                    <ul class="facility-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Transportasi PP AC dari Meeting Point (Malang)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Jeep Bromo 4x4 Sharing</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Tiket Masuk Taman Nasional (TN BTS)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Driver Jeep & BBM Terintegrasi</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Air Mineral 600ml</li>
+                        <li class="not-included"><i class="fa-solid fa-circle-xmark"></i> Penginapan/Hotel</li>
+                        <li class="not-included"><i class="fa-solid fa-circle-xmark"></i> Makan & Dokumentasi Pribadi</li>
+                    </ul>
+                    <a href="{{ url_for('booking', paket='Reguler') }}" class="btn btn-primary">Pesan Paket Reguler</a>
+                </div>
+            </div>
+
+            <!-- Paket 2: Private Trip (Best Seller) -->
+            <div class="package-card" style="border: 2px solid var(--primary-orange);">
+                <div class="package-badge" style="background-color: var(--nature-green);">Best Choice</div>
+                <div class="package-header" style="background-color: var(--dark-mountain-light);">
+                    <h3>Paket Private</h3>
+                    <p class="package-price">Rp 1.500.000 <span>/ group (1-6 orang)</span></p>
+                    <p class="package-duration"><i class="fa-regular fa-clock"></i> 1 Hari (Jadwal Custom)</p>
+                </div>
+                <div class="package-body">
+                    <ul class="facility-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Mobil Private Avanza/Innova (PP Penjemputan)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Jeep Bromo 4x4 Full Private</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Tiket Masuk TN BTS (Seluruh Peserta)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Driver Professional sebagai Tour Guide</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Air Mineral & Snack Box</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Dokumentasi Foto standar</li>
+                        <li class="not-included"><i class="fa-solid fa-circle-xmark"></i> Makan Siang (Opsional)</li>
+                    </ul>
+                    <a href="{{ url_for('booking', paket='Private') }}" class="btn btn-primary" style="background-color: var(--primary-orange-hover);">Pesan Paket Private</a>
+                </div>
+            </div>
+
+            <!-- Paket 3: Sunrise Exclusive -->
+            <div class="package-card">
+                <div class="package-badge">Special Edition</div>
+                <div class="package-header">
+                    <h3>Paket Sunrise</h3>
+                    <p class="package-price">Rp 450.000 <span>/ pax</span></p>
+                    <p class="package-duration"><i class="fa-regular fa-clock"></i> 12 Jam (Fokus Sunrise Spot)</p>
+                </div>
+                <div class="package-body">
+                    <ul class="facility-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Transportasi PP Meeting Point</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Jeep Bromo 4x4 Sharing</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Tiket Masuk TN BTS</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Spot Sunrise Penanjakan Premium</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Sarapan Pagi di Area Bromo</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Hangatnya Teh / Kopi di Sunrise Spot</li>
+                        <li class="not-included"><i class="fa-solid fa-circle-xmark"></i> Dokumentasi Kamera Professional</li>
+                    </ul>
+                    <a href="{{ url_for('booking', paket='Sunrise') }}" class="btn btn-primary">Pesan Paket Sunrise</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Detail Trip Wisata Bromo - MountainGo{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <span class="badge badge-primary" style="display: block; margin: 0 auto 10px auto; width: fit-content;">Panduan Perjalanan</span>
+        <h1 class="section-title text-center" style="display: block;">Detail Rencana Perjalanan Bromo</h1>
+        <p class="section-desc text-center">Berikut adalah informasi destinasi wisata terpopuler, jadwal kegiatan, dan persiapan wajib sebelum Anda berangkat.</p>
+        
+        <div class="detail-layout">
+            <!-- Main Content: Itinerary & Destinations -->
+            <div class="detail-main">
+                <h2>Rute & Destinasi Utama</h2>
+                <p>Gunung Bromo memiliki kawasan pasir yang luas serta pemandangan kaldera yang menakjubkan. Selama trip bersama MountainGo, Anda akan mengunjungi empat destinasi ikonik berikut:</p>
+                
+                <!-- Destination Mini Cards -->
+                <div class="destinations-grid">
+                    <!-- Dest 1 -->
+                    <div class="dest-card">
+                        <div class="dest-card-img" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('{{ url_for('static', filename='images/bromo.jpg') }}');"></div>
+                        <div class="dest-card-title">Penanjakan Sunrise Spot</div>
+                    </div>
+                    <!-- Dest 2 -->
+                    <div class="dest-card">
+                        <div class="dest-card-img" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('{{ url_for('static', filename='images/bromo.jpg') }}'); filter: hue-rotate(30deg);"></div>
+                        <div class="dest-card-title">Kawah Gunung Bromo</div>
+                    </div>
+                    <!-- Dest 3 -->
+                    <div class="dest-card">
+                        <div class="dest-card-img" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('{{ url_for('static', filename='images/bromo.jpg') }}'); filter: saturate(0.5) brightness(0.9);"></div>
+                        <div class="dest-card-title">Lautan Pasir Berbisik</div>
+                    </div>
+                    <!-- Dest 4 -->
+                    <div class="dest-card">
+                        <div class="dest-card-img" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('{{ url_for('static', filename='images/bromo.jpg') }}'); filter: hue-rotate(90deg) saturate(1.3);"></div>
+                        <div class="dest-card-title">Bukit Teletubbies (Savana)</div>
+                    </div>
+                </div>
+                
+                <h2 style="margin-top: 20px;">Timeline / Rundown Perjalanan</h2>
+                <p>Estimasi jadwal perjalanan trip Bromo Sunrise (Midnight departure):</p>
+                
+                <!-- Timeline Component -->
+                <div class="timeline">
+                    
+                    <div class="timeline-item">
+                        <div class="time-tag">00.00 - 01.30</div>
+                        <h4>Penjemputan & Keberangkatan</h4>
+                        <p>Penjemputan peserta di meeting point yang disepakati di Kota Malang atau Probolinggo menggunakan armada ber-AC, dilanjutkan perjalanan menuju rest area jeep.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="time-tag">01.30 - 03.00</div>
+                        <h4>Perjalanan Jeep 4x4</h4>
+                        <p>Transfer dari kendaraan AC ke Jeep 4x4 offroad untuk membelah lautan pasir dingin dan mendaki jalan berliku menuju Puncak Penanjakan.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="time-tag">03.00 - 06.00</div>
+                        <h4>Golden Sunrise Penanjakan</h4>
+                        <p>Tiba di spot Penanjakan. Istirahat sejenak sambil menikmati kopi hangat. Menyaksikan keindahan sunrise Bromo yang magis dan berfoto ria.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="time-tag">06.00 - 08.00</div>
+                        <h4>Pendakian Kawah Bromo & Pura Luhur Poten</h4>
+                        <p>Turun dari spot sunrise menggunakan jeep ke lautan pasir. Peserta bisa berjalan kaki atau naik kuda (opsional) untuk mendaki tangga kawah aktif Gunung Bromo.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="time-tag">08.00 - 09.30</div>
+                        <h4>Pasir Berbisik & Bukit Teletubbies</h4>
+                        <p>Berkeliling ke hamparan pasir berbisik yang luas dan dilanjutkan ke padang savana Bukit Teletubbies yang hijau dan asri.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="time-tag">09.30 - 12.00</div>
+                        <h4>Kembali ke Meeting Point</h4>
+                        <p>Kembali ke rest area jeep dan diantar pulang kembali menuju lokasi penjemputan awal. Trip selesai dengan membawa sejuta kenangan indah.</p>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Sidebar: Important Notes -->
+            <div class="detail-sidebar">
+                <div class="sidebar-card">
+                    <h3>Catatan Penting Peserta</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Kondisi suhu di Bromo dapat mencapai 5°C. Mohon siapkan perlengkapan berikut:</p>
+                    <ul class="notes-list">
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Jaket Tebal (Disarankan windbreaker)</li>
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Masker Penutup Debu Pasir</li>
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Sepatu Olahraga / Trekking</li>
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Sarung Tangan, Syal, & Kupluk Hangat</li>
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Kacamata Pelindung Mata</li>
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Uang Tunai Secukupnya</li>
+                        <li><i class="fa-solid fa-circle-exclamation"></i> Obat-obatan Pribadi</li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-card text-center" style="background-color: var(--primary-orange); color: var(--text-light);">
+                    <h3 style="color: var(--text-light); border-color: rgba(255,255,255,0.2);">Daftar Sekarang!</h3>
+                    <p style="margin-bottom: 20px; font-size: 0.95rem;">Dapatkan seat Anda sebelum kehabisan kuota untuk trip Sunrise Bromo.</p>
+                    <a href="{{ url_for('booking') }}" class="btn btn-outline-white" style="display: block;">Form Booking</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

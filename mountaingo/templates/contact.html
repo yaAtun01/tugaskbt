@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Hubungi Kami - MountainGo Bromo Trip{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <span class="badge badge-primary" style="display: block; margin: 0 auto 10px auto; width: fit-content;">Hubungi Hubungan Pelanggan</span>
+        <h1 class="section-title text-center" style="display: block;">Hubungi Tim MountainGo</h1>
+        <p class="section-desc text-center">Punya pertanyaan seputar paket, ketersediaan jadwal, atau custom trip? Jangan ragu untuk menghubungi tim admin kami yang ramah.</p>
+        
+        <div class="contact-grid">
+            
+            <!-- Left Side: Contact Cards -->
+            <div class="contact-info-cards">
+                
+                <!-- Card 1: WhatsApp -->
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="contact-card-details">
+                        <h4>WhatsApp Chat</h4>
+                        <p>Respon cepat untuk pemesanan & konsultasi jadwal.</p>
+                        <p style="font-weight: 700; color: var(--primary-orange); margin-top: 5px;">+62 812-3456-7890</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Instagram -->
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <div class="contact-card-details">
+                        <h4>Instagram Resmi</h4>
+                        <p>Lihat dokumentasi seru dari traveler kami sebelumnya.</p>
+                        <a href="https://instagram.com/mountaingo_bromo" target="_blank" style="font-weight: 700;">@mountaingo_bromo</a>
+                    </div>
+                </div>
+                
+                <!-- Card 3: Meeting Point / Lokasi -->
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </div>
+                    <div class="contact-card-details">
+                        <h4>Lokasi Meeting Point</h4>
+                        <p>Lokasi kumpul awal peserta sebelum naik ke Bromo.</p>
+                        <p style="font-weight: 600; margin-top: 5px;">Stasiun Malang Kota Baru / Bandara Abd. Saleh / Area Malang & Probolinggo Kota</p>
+                    </div>
+                </div>
+                
+                <!-- Direct WhatsApp Click Button -->
+                <a href="https://wa.me/6281234567890?text=Halo%20Admin%20MountainGo,%20saya%20ingin%20tanya%20mengenai%20booking%20trip%20ke%20Bromo." 
+                   target="_blank" 
+                   class="btn btn-primary" 
+                   style="display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; font-size: 1.1rem; box-shadow: 0 4px 14px rgba(46, 125, 50, 0.3); background-color: var(--nature-green);">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i> Hubungi Admin via WhatsApp
+                </a>
+            </div>
+            
+            <!-- Right Side: Styled Map Placeholder -->
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <h3>Basecamp MountainGo</h3>
+                    <p style="max-width: 320px; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">Jl. Raya Bromo No. 45, Sukapura, Kabupaten Probolinggo, Jawa Timur, Indonesia</p>
+                    <a href="https://maps.google.com" target="_blank" class="btn btn-secondary" style="border-radius: var(--border-radius-sm); font-size: 0.85rem; padding: 8px 20px;">
+                        <i class="fa-solid fa-up-right-from-square"></i> Buka Google Maps
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+{% endblock %}

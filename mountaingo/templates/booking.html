@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Form Pemesanan Trip Bromo - MountainGo{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <span class="badge badge-primary" style="display: block; margin: 0 auto 10px auto; width: fit-content;">Form Pemesanan</span>
+        <h1 class="section-title text-center" style="display: block;">Mulai Pemesanan Trip Anda</h1>
+        <p class="section-desc text-center">Isi formulir di bawah ini dengan lengkap dan benar. Tim admin kami akan segera memverifikasi pesanan Anda.</p>
+        
+        <div class="booking-container">
+            
+            <!-- Flash Message System -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span>{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('booking') }}" method="POST" id="bookingForm">
+                
+                <!-- Nama Lengkap -->
+                <div class="form-group">
+                    <label for="nama"><i class="fa-solid fa-user"></i> Nama Lengkap</label>
+                    <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+                
+                <!-- Kontak Row (WA & Email) -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="whatsapp"><i class="fa-brands fa-whatsapp"></i> Nomor WhatsApp</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="Contoh: 08123456789" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fa-regular fa-envelope"></i> Alamat Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email aktif Anda" required>
+                    </div>
+                </div>
+                
+                <!-- Jadwal Row (Tanggal & Jumlah Peserta) -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tanggal_trip"><i class="fa-regular fa-calendar-days"></i> Tanggal Trip</label>
+                        <input type="date" id="tanggal_trip" name="tanggal_trip" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_peserta"><i class="fa-solid fa-users"></i> Jumlah Peserta (Orang)</label>
+                        <input type="number" id="jumlah_peserta" name="jumlah_peserta" class="form-control" min="1" max="50" placeholder="1" required>
+                    </div>
+                </div>
+                
+                <!-- Pilihan Paket -->
+                <div class="form-group">
+                    <label for="paket"><i class="fa-solid fa-suitcase-rolling"></i> Pilihan Paket Bromo Trip</label>
+                    <select id="paket" name="paket" class="form-control" required>
+                        <option value="" disabled selected>-- Pilih Paket Trip Bromo --</option>
+                        <option value="Reguler" {% if paket_pilihan == 'Reguler' %}selected{% endif %}>Paket Reguler (Rp 350.000 / pax)</option>
+                        <option value="Private" {% if paket_pilihan == 'Private' %}selected{% endif %}>Paket Private (Rp 1.500.000 / group)</option>
+                        <option value="Sunrise" {% if paket_pilihan == 'Sunrise' %}selected{% endif %}>Paket Sunrise (Rp 450.000 / pax)</option>
+                    </select>
+                </div>
+                
+                <!-- Catatan Tambahan -->
+                <div class="form-group">
+                    <label for="catatan"><i class="fa-solid fa-comment-dots"></i> Catatan Tambahan (Opsional)</label>
+                    <textarea id="catatan" name="catatan" class="form-control" placeholder="Tuliskan jika Anda membutuhkan kebutuhan khusus (misal: lokasi penjemputan spesifik, vegetarian, dll.)"></textarea>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px; font-size: 1.1rem; padding: 15px;">
+                    <i class="fa-solid fa-paper-plane"></i> Kirim Form Pemesanan
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Success Popup Modal Dialog -->
+{% if success %}
+<div class="success-modal-overlay" id="successModal">
+    <div class="success-modal">
+        <div class="success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3>Pemesanan Berhasil!</h3>
+        <p>Terima kasih telah mempercayakan perjalanan Anda kepada MountainGo. Data pemesanan Anda telah tersimpan dengan aman di database. Admin kami akan segera menghubungi Anda melalui WhatsApp untuk proses konfirmasi pembayaran.</p>
+        <button class="btn btn-primary" id="closeModalBtn" style="padding: 10px 30px;">Tutup</button>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
