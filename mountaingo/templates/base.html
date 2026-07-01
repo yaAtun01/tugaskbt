@@ -35,7 +35,6 @@
                 <a href="{{ url_for('detail') }}" class="{% if request.path == url_for('detail') %}active{% endif %}">Detail Trip</a>
                 <a href="{{ url_for('about') }}" class="{% if request.path == url_for('about') %}active{% endif %}">Tentang Kami</a>
                 <a href="{{ url_for('contact') }}" class="{% if request.path == url_for('contact') %}active{% endif %}">Kontak</a>
-                <a href="{{ url_for('admin') }}" class="{% if request.path == url_for('admin') %}active{% endif %}">Admin</a>
                 <a href="{{ url_for('booking') }}" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem; box-shadow: none;">Pesan Sekarang</a>
             </nav>
         </div>

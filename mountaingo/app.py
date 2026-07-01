@@ -1,12 +1,14 @@
+import functools
 import os
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 
 app = Flask(__name__)
 # Secret key for flash messages
 app.secret_key = 'mountaingo_secret_key'
 
 DATABASE = 'database.db'
+ADMIN_PASSWORD = os.environ.get('MOUNTAINGO_ADMIN_PASSWORD', 'admin123')
 
 def get_db_connection():
     """Membuka koneksi ke database SQLite."""
@@ -55,6 +57,15 @@ def copy_placeholder_image():
                 print(f"Gagal menyalin gambar: {e}")
         else:
             print("Gambar sumber bromo_sunrise tidak ditemukan di folder artifact.")
+
+
+def login_required(view_func):
+    @functools.wraps(view_func)
+    def wrapped_view(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login'))
+        return view_func(*args, **kwargs)
+    return wrapped_view
 
 # --- ROUTES ---
 
@@ -115,7 +126,29 @@ def booking():
     
     return render_template('booking.html', paket_pilihan=paket_pilihan, success=success)
 
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if session.get('admin_logged_in'):
+        return redirect(url_for('admin'))
+
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password == ADMIN_PASSWORD:
+            session['admin_logged_in'] = True
+            flash('Login admin berhasil.', 'success')
+            return redirect(url_for('admin'))
+        flash('Password admin salah.', 'error')
+
+    return render_template('login.html')
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    flash('Anda berhasil keluar dari panel admin.', 'success')
+    return redirect(url_for('admin_login'))
+
 @app.route('/admin')
+@login_required
 def admin():
     """Halaman Admin Panel Sederhana."""
     conn = get_db_connection()
@@ -133,6 +166,7 @@ def admin():
     return render_template('admin.html', bookings=bookings, stats=stats)
 
 @app.route('/admin/update-status', methods=['POST'])
+@login_required
 def update_status():
     """Route untuk mengubah status pemesanan."""
     booking_id = request.form.get('booking_id')

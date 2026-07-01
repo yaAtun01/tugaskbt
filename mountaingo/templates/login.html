@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login - MountainGo Bromo Trip{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container" style="max-width: 420px; margin: 0 auto;">
+        <span class="badge badge-primary">Admin MountainGo</span>
+        <h1 class="section-title">Masuk ke Panel Admin</h1>
+        <p class="section-desc">Masukkan password admin untuk melihat dan mengelola data pemesanan.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="auth-card">
+            <form action="{{ url_for('admin_login') }}" method="POST">
+                <div class="form-group">
+                    <label for="password">Password Admin</label>
+                    <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </form>
+            <p style="margin-top: 16px; color: var(--text-muted);">Jika belum ada password khusus, gunakan nilai default yang tersimpan di environment variable <code>MOUNTAINGO_ADMIN_PASSWORD</code> atau ubah di file <code>app.py</code>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
