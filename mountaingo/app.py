@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'mountaingo_secret_key'
 
 DATABASE = 'database.db'
-ADMIN_PASSWORD = os.environ.get('MOUNTAINGO_ADMIN_PASSWORD', 'admin123')
+ADMIN_PASSWORD = os.environ.get('MOUNTAINGO_ADMIN_PASSWORD', 'terimakasih')  # Password admin default, bisa diubah melalui environment variable
 
 def get_db_connection():
     """Membuka koneksi ke database SQLite."""
@@ -201,4 +201,4 @@ if __name__ == '__main__':
     # Salin gambar Bromo ke direktori static jika belum ada
     copy_placeholder_image()
     # Menjalankan aplikasi Flask di port 5000
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
