@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MountainGo Bromo Trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --orange:#E8672A;
+    --orange-light:#F5A65B;
+    --orange-deep:#C64E1B;
+    --sand:#C9A66B;
+    --sand-light:#EFE4CC;
+    --sand-pale:#FAF6EF;
+    --mountain:#221C18;
+    --mountain-2:#3A2E26;
+    --mist:#FAF6EF;
+    --green:#5B7553;
+    --green-deep:#43593D;
+    --brown-deep:#4A3728;
+    --ink:#241E1A;
+    --radius:16px;
+    --shadow-soft:0 10px 30px -12px rgba(74,55,40,0.25);
+    --shadow-card:0 4px 18px -6px rgba(74,55,40,0.18);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:var(--sand-pale);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  p{margin:0;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  img{max-width:100%;display:block;}
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:12px;
+    font-weight:700;
+    color:var(--orange-deep);
+  }
+  .container{
+    max-width:1160px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px 28px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:15px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--orange),var(--orange-deep));
+    color:#fff;
+    box-shadow:0 8px 20px -6px rgba(230,90,30,0.55);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -6px rgba(230,90,30,0.6);}
+  .btn-outline{
+    background:transparent;
+    color:var(--mist);
+    border:1.5px solid rgba(250,246,239,0.55);
+  }
+  .btn-outline:hover{background:rgba(250,246,239,0.12);}
+  .btn-dark{
+    background:var(--mountain);
+    color:var(--mist);
+  }
+  .btn-dark:hover{background:var(--mountain-2);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--brown-deep);
+    border:1.5px solid var(--sand);
+    padding:10px 20px;
+  }
+  .btn-ghost:hover{background:var(--sand-light);}
+  .btn-danger{
+    background:#B3432F;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:13px;
+  }
+  .btn-danger:hover{background:#932F1E;}
+  .btn-sm{padding:9px 18px;font-size:14px;}
+
+  /* ===== NAV ===== */
+  header.nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(250,246,239,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(74,55,40,0.08);
+  }
+  .nav-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Fraunces',serif;font-weight:700;font-size:19px;
+  }
+  .logo-mark{
+    width:38px;height:38px;border-radius:10px;
+    background:linear-gradient(135deg,var(--orange),var(--orange-deep));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:18px;flex-shrink:0;
+  }
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  .nav-links a{font-weight:600;font-size:14.5px;color:var(--brown-deep);}
+  .nav-links a:hover{color:var(--orange-deep);}
+  .nav-actions{display:flex;align-items:center;gap:12px;}
+  @media(max-width:760px){
+    .nav-links{display:none;}
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;overflow:hidden;
+    background:linear-gradient(180deg,#2A2038 0%, #6B3A2E 32%, var(--orange) 62%, var(--orange-light) 100%);
+    min-height:640px;
+    display:flex;align-items:flex-end;
+  }
+  .hero-sun{
+    position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+    width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #FFE8B0, var(--orange) 60%, var(--orange-deep) 100%);
+    box-shadow:0 0 90px 30px rgba(245,166,91,0.55);
+    animation:rise 5s ease-out forwards;
+  }
+  @keyframes rise{
+    0%{transform:translate(-50%,10%) scale(0.85);opacity:0.4;}
+    100%{transform:translate(-50%,-50%) scale(1);opacity:1;}
+  }
+  .hero-mist{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, transparent 40%, rgba(250,246,239,0.25) 70%, rgba(250,246,239,0.05) 100%);
+  }
+  .hero-mountains{position:absolute;bottom:0;left:0;width:100%;line-height:0;}
+  .hero-content{
+    position:relative;z-index:5;
+    width:100%;
+    padding:180px 24px 80px;
+    max-width:1160px;margin:0 auto;
+    color:var(--mist);
+  }
+  .hero-content .eyebrow{color:#FFE3B8;}
+  .hero-content h1{
+    font-size:clamp(38px,6vw,64px);
+    line-height:1.05;
+    margin:14px 0 18px;
+    max-width:720px;
+    text-shadow:0 4px 30px rgba(30,15,5,0.35);
+  }
+  .hero-content p.lead{
+    font-size:17px;line-height:1.6;max-width:520px;color:#FBEFDD;margin-bottom:32px;
+  }
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;}
+  .hero-stats{
+    display:flex;gap:36px;margin-top:56px;flex-wrap:wrap;
+  }
+  .hero-stat b{font-family:'Fraunces',serif;font-size:26px;display:block;}
+  .hero-stat span{font-size:12.5px;color:#FBEFDD;opacity:0.85;}
+
+  /* ===== SECTION GENERIC ===== */
+  section{padding:90px 0;}
+  .section-head{max-width:600px;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,40px);margin-top:10px;line-height:1.15;}
+  .section-head p{color:var(--brown-deep);opacity:0.75;margin-top:14px;font-size:15.5px;line-height:1.6;}
+
+  /* ===== PACKAGES ===== */
+  .packages{background:var(--sand-pale);}
+  .pkg-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  @media(max-width:900px){.pkg-grid{grid-template-columns:1fr;}}
+  .pkg-card{
+    background:#fff;border-radius:var(--radius);
+    padding:32px 28px;box-shadow:var(--shadow-card);
+    border:1px solid rgba(74,55,40,0.06);
+    display:flex;flex-direction:column;
+    position:relative;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .pkg-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-soft);}
+  .pkg-card.featured{
+    border:2px solid var(--orange);
+  }
+  .pkg-badge{
+    position:absolute;top:-13px;right:24px;
+    background:var(--orange);color:#fff;font-size:11.5px;font-weight:700;
+    padding:6px 14px;border-radius:999px;letter-spacing:0.04em;
+  }
+  .pkg-icon{
+    width:52px;height:52px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;margin-bottom:18px;
+    background:var(--sand-light);
+  }
+  .pkg-card h3{font-size:22px;margin-bottom:8px;}
+  .pkg-desc{font-size:14px;color:var(--brown-deep);opacity:0.75;line-height:1.55;margin-bottom:18px;}
+  .pkg-price{margin-bottom:20px;}
+  .pkg-price b{font-family:'Fraunces',serif;font-size:30px;color:var(--orange-deep);}
+  .pkg-price span{font-size:13px;color:var(--brown-deep);opacity:0.7;}
+  .pkg-features{list-style:none;padding:0;margin:0 0 26px;flex-grow:1;}
+  .pkg-features li{
+    font-size:13.8px;padding:7px 0;color:var(--ink);
+    display:flex;align-items:flex-start;gap:9px;
+  }
+  .pkg-features li:before{
+    content:"✓";color:var(--green);font-weight:800;flex-shrink:0;
+  }
+
+  /* ===== DESTINATION ===== */
+  .destinations{background:var(--mountain);color:var(--mist);}
+  .destinations .eyebrow{color:var(--orange-light);}
+  .destinations .section-head p{color:#D8CBBC;}
+  .dest-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  @media(max-width:900px){.dest-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.dest-grid{grid-template-columns:1fr;}}
+  .dest-card{
+    background:rgba(250,246,239,0.05);
+    border:1px solid rgba(250,246,239,0.12);
+    border-radius:var(--radius);
+    padding:26px 20px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .dest-card:hover{background:rgba(250,246,239,0.1);transform:translateY(-4px);}
+  .dest-icon{
+    width:46px;height:46px;border-radius:12px;
+    background:linear-gradient(135deg,var(--orange),var(--orange-deep));
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    margin-bottom:16px;
+  }
+  .dest-card h4{font-size:17px;color:var(--mist);margin-bottom:8px;}
+  .dest-card p{font-size:13.5px;color:#D8CBBC;line-height:1.55;}
+
+  /* ===== BOOKING ===== */
+  .booking{background:var(--sand-pale);}
+  .booking-wrap{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:36px;align-items:flex-start;
+  }
+  @media(max-width:900px){.booking-wrap{grid-template-columns:1fr;}}
+  .form-card{
+    background:#fff;border-radius:20px;padding:36px;
+    box-shadow:var(--shadow-soft);
+  }
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:520px){.field-row{grid-template-columns:1fr;}}
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:var(--brown-deep);
+  }
+  .field input,.field select,.field textarea{
+    width:100%;padding:12px 14px;border-radius:10px;
+    border:1.5px solid var(--sand);background:var(--sand-pale);
+    font-family:inherit;font-size:14.5px;color:var(--ink);
+    transition:border .15s ease, background .15s ease;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--orange);background:#fff;
+  }
+  .field textarea{resize:vertical;min-height:80px;}
+  .field .err{color:#B3432F;font-size:12.5px;margin-top:5px;display:none;}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#B3432F;}
+  .field.invalid .err{display:block;}
+
+  .summary-card{
+    background:linear-gradient(160deg,var(--mountain),var(--mountain-2));
+    color:var(--mist);border-radius:20px;padding:32px;
+    position:sticky;top:100px;
+  }
+  .summary-card h3{color:var(--mist);font-size:19px;margin-bottom:20px;}
+  .summary-row{
+    display:flex;justify-content:space-between;font-size:14px;
+    padding:11px 0;border-bottom:1px dashed rgba(250,246,239,0.15);color:#E7DCCB;
+  }
+  .summary-row b{color:var(--mist);}
+  .summary-total{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:20px;padding-top:20px;border-top:1px solid rgba(250,246,239,0.2);
+  }
+  .summary-total span{font-size:13px;color:#D8CBBC;}
+  .summary-total b{font-family:'Fraunces',serif;font-size:28px;color:var(--orange-light);}
+
+  .success-box{
+    background:#fff;border-radius:20px;padding:48px 36px;text-align:center;
+    box-shadow:var(--shadow-soft);
+  }
+  .success-icon{
+    width:74px;height:74px;border-radius:50%;
+    background:var(--green);color:#fff;font-size:34px;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 20px;
+  }
+  .success-box h3{font-size:24px;margin-bottom:10px;}
+  .success-box p{color:var(--brown-deep);opacity:0.8;font-size:14.5px;margin-bottom:24px;}
+  .booking-id{
+    display:inline-block;background:var(--sand-light);color:var(--orange-deep);
+    font-weight:700;padding:8px 18px;border-radius:999px;margin-bottom:24px;font-size:14px;
+    letter-spacing:0.03em;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    background:var(--mountain);color:#D8CBBC;padding:50px 0 26px;
+  }
+  .footer-inner{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;
+    padding-bottom:30px;border-bottom:1px solid rgba(250,246,239,0.1);margin-bottom:20px;
+  }
+  .footer-inner .logo{color:var(--mist);}
+  footer .fine{font-size:12.5px;text-align:center;opacity:0.6;}
+
+  /* ===== ADMIN LOGIN MODAL ===== */
+  .overlay{
+    position:fixed;inset:0;background:rgba(34,28,24,0.65);
+    display:flex;align-items:center;justify-content:center;z-index:1000;
+    padding:20px;
+  }
+  .hidden{display:none !important;}
+  .login-card{
+    background:#fff;border-radius:20px;padding:40px 34px;width:100%;max-width:380px;
+    box-shadow:var(--shadow-soft);position:relative;
+  }
+  .login-card .close-x{
+    position:absolute;top:16px;right:18px;font-size:20px;color:var(--brown-deep);
+    background:none;
+  }
+  .login-icon{
+    width:56px;height:56px;border-radius:14px;
+    background:linear-gradient(135deg,var(--orange),var(--orange-deep));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;
+  }
+  .login-card h3{font-size:21px;margin-bottom:6px;}
+  .login-card p.sub{font-size:13.5px;color:var(--brown-deep);opacity:0.7;margin-bottom:24px;}
+  .login-error{
+    background:#FBE4DC;color:#B3432F;font-size:13px;padding:10px 14px;border-radius:10px;
+    margin-bottom:16px;display:none;
+  }
+
+  /* ===== ADMIN DASHBOARD ===== */
+  .admin-page{background:var(--sand-pale);min-height:100vh;}
+  .admin-bar{
+    background:var(--mountain);color:var(--mist);padding:18px 0;
+  }
+  .admin-bar-inner{
+    max-width:1160px;margin:0 auto;padding:0 24px;
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+  .admin-main{max-width:1160px;margin:0 auto;padding:40px 24px 80px;}
+  .stat-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:36px;
+  }
+  @media(max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{
+    background:#fff;border-radius:16px;padding:24px;box-shadow:var(--shadow-card);
+    border-left:4px solid var(--orange);
+  }
+  .stat-card.green{border-left-color:var(--green);}
+  .stat-card.brown{border-left-color:var(--sand);}
+  .stat-card.black{border-left-color:var(--mountain);}
+  .stat-card span{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--brown-deep);opacity:0.7;}
+  .stat-card b{display:block;font-family:'Fraunces',serif;font-size:28px;margin-top:8px;}
+
+  .table-card{
+    background:#fff;border-radius:16px;box-shadow:var(--shadow-card);overflow:hidden;
+  }
+  .table-head{
+    padding:22px 26px;border-bottom:1px solid rgba(74,55,40,0.08);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+  }
+  .table-head h3{font-size:19px;}
+  .table-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:900px;}
+  th,td{text-align:left;padding:14px 20px;font-size:13.5px;white-space:nowrap;}
+  thead th{
+    background:var(--sand-pale);color:var(--brown-deep);
+    font-weight:700;text-transform:uppercase;font-size:11.5px;letter-spacing:0.05em;
+  }
+  tbody tr{border-bottom:1px solid rgba(74,55,40,0.06);}
+  tbody tr:hover{background:#FCFAF5;}
+  .cell-name b{display:block;font-size:14px;}
+  .cell-name span{font-size:12px;color:var(--brown-deep);opacity:0.65;}
+  .status-select{
+    padding:7px 10px;border-radius:8px;border:1.5px solid var(--sand);font-size:12.5px;
+    font-weight:700;background:var(--sand-pale);
+  }
+  .status-pill{
+    display:inline-block;padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:700;
+  }
+  .status-Pending{background:#FBE9D0;color:#9A6A1E;}
+  .status-Dikonfirmasi{background:#DCE9DC;color:var(--green-deep);}
+  .status-Selesai{background:#D6E4EE;color:#2C5A7A;}
+  .status-Dibatalkan{background:#F5D9D2;color:#B3432F;}
+  .empty-state{padding:60px 20px;text-align:center;color:var(--brown-deep);opacity:0.7;}
+  .empty-state .em-icon{font-size:38px;margin-bottom:12px;}
+
+  .toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(120%);
+    background:var(--mountain);color:var(--mist);padding:14px 24px;border-radius:12px;
+    font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    transition:transform .3s ease;z-index:2000;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ============ CUSTOMER SITE ============ -->
+<div id="site">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="logo"><div class="logo-mark">⛰</div>MountainGo <span style="color:var(--orange-deep)">Bromo</span></div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#paket">Paket Trip</a>
+        <a href="#destinasi">Destinasi</a>
+        <a href="#booking">Booking</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="#booking" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+        <a href="javascript:void(0)" class="btn btn-ghost btn-sm" onclick="openAdminLogin()">Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-sun"></div>
+    <div class="hero-mist"></div>
+    <svg class="hero-mountains" viewBox="0 0 1440 260" preserveAspectRatio="none" style="height:260px;width:100%;">
+      <path d="M0,180 L180,80 L340,160 L520,40 L720,170 L900,70 L1100,150 L1260,90 L1440,170 L1440,260 L0,260 Z" fill="#3A2E26" opacity="0.85"/>
+      <path d="M0,220 L220,140 L400,200 L620,110 L850,210 L1050,130 L1250,205 L1440,150 L1440,260 L0,260 Z" fill="#221C18"/>
+    </svg>
+    <div class="hero-content">
+      <p class="eyebrow">Wisata Gunung Bromo · Jawa Timur</p>
+      <h1>Saksikan Matahari Terbit Paling Ikonik di Bromo</h1>
+      <p class="lead">Perjalanan jeep, sunrise di Penanjakan, kawah aktif, dan savana luas — kami atur semuanya supaya kamu tinggal menikmati momennya.</p>
+      <div class="hero-cta">
+        <a href="#paket" class="btn btn-primary">Lihat Paket Trip</a>
+        <a href="#destinasi" class="btn btn-outline">Jelajahi Destinasi</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>3</b><span>Pilihan Paket Trip</span></div>
+        <div class="hero-stat"><b>4</b><span>Titik Destinasi Utama</span></div>
+        <div class="hero-stat"><b>2.329m</b><span>Ketinggian Gunung Bromo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages" id="paket">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Pilih Perjalananmu</p>
+        <h2>Paket Trip Bromo</h2>
+        <p>Semua paket sudah termasuk jeep 4x4, guide lokal, dan kunjungan ke titik-titik utama Bromo. Tinggal sesuaikan dengan gaya perjalananmu.</p>
+      </div>
+      <div class="pkg-grid" id="pkgGrid"></div>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="destinations" id="destinasi">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Yang Akan Kamu Kunjungi</p>
+        <h2>Detail Destinasi Bromo</h2>
+        <p>Empat titik utama yang membuat perjalanan ke Bromo selalu diingat, dari lautan awan hingga padang savana.</p>
+      </div>
+      <div class="dest-grid" id="destGrid"></div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="booking" id="booking">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Form Pemesanan</p>
+        <h2>Pesan Tiket Trip Bromo</h2>
+        <p>Isi data di bawah ini, total harga akan terhitung otomatis sesuai paket dan jumlah peserta.</p>
+      </div>
+
+      <div id="bookingArea">
+        <div class="booking-wrap" id="formWrap">
+          <div class="form-card">
+            <form id="bookingForm" novalidate>
+              <div class="field-row">
+                <div class="field" id="f-name">
+                  <label>Nama Lengkap</label>
+                  <input type="text" id="in-name" placeholder="Contoh: Ayu Lestari">
+                  <div class="err">Nama lengkap wajib diisi.</div>
+                </div>
+                <div class="field" id="f-wa">
+                  <label>Nomor WhatsApp</label>
+                  <input type="tel" id="in-wa" placeholder="08xxxxxxxxxx">
+                  <div class="err">Nomor WhatsApp tidak valid.</div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field" id="f-email">
+                  <label>Email</label>
+                  <input type="email" id="in-email" placeholder="nama@email.com">
+                  <div class="err">Format email tidak valid.</div>
+                </div>
+                <div class="field" id="f-date">
+                  <label>Tanggal Trip</label>
+                  <input type="date" id="in-date">
+                  <div class="err">Pilih tanggal trip.</div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field" id="f-people">
+                  <label>Jumlah Peserta (maks. 6 orang)</label>
+                  <input type="number" id="in-people" min="1" max="6" value="1">
+                  <div class="err">Jumlah peserta minimal 1 dan maksimal 6 orang.</div>
+                </div>
+                <div class="field" id="f-package">
+                  <label>Pilihan Paket</label>
+                  <select id="in-package">
+                    <option value="">Pilih paket...</option>
+                  </select>
+                  <div class="err">Pilih salah satu paket.</div>
+                </div>
+              </div>
+              <div class="field" id="f-payment">
+                <label>Transfer Ke Rekening</label>
+                <select id="in-payment">
+                  <option value="">Pilih bank tujuan transfer...</option>
+                </select>
+                <div class="err">Pilih bank tujuan transfer.</div>
+              </div>
+              <div class="field">
+                <label>Catatan Tambahan (opsional)</label>
+                <textarea id="in-notes" placeholder="Contoh: titik jemput hotel, permintaan khusus, dll."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;padding:16px;">Pesan Tiket Sekarang</button>
+            </form>
+          </div>
+
+          <div class="summary-card">
+            <h3>Ringkasan Pesanan</h3>
+            <div class="summary-row"><span>Paket</span><b id="sum-package">—</b></div>
+            <div class="summary-row"><span>Harga / orang</span><b id="sum-price">Rp0</b></div>
+            <div class="summary-row"><span>Jumlah Peserta</span><b id="sum-people">1</b></div>
+            <div class="summary-row"><span>Tanggal Trip</span><b id="sum-date">—</b></div>
+            <div class="summary-total">
+              <span>Total Harga</span>
+              <b id="sum-total">Rp0</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="success-box hidden" id="successBox">
+          <div class="success-icon">✓</div>
+          <h3>Booking Berhasil!</h3>
+          <p>Terima kasih, pesananmu sudah kami terima. Silakan transfer ke rekening admin di bawah ini, lalu unggah bukti pembayaran agar segera diverifikasi.</p>
+          <div class="booking-id" id="successId">BRM-000000</div>
+          <div class="va-box" style="background:var(--sand-light);border-radius:14px;padding:20px;margin:0 0 20px;text-align:left;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--brown-deep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;" id="vaBankLabel">Bank</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <span style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--orange-deep);letter-spacing:0.03em;" id="vaNumber">-</span>
+              <button type="button" class="btn btn-ghost btn-sm" onclick="copyAccountNumber()">Salin No. Rekening</button>
+            </div>
+            <div style="font-size:13px;color:var(--brown-deep);margin-top:4px;" id="vaHolder">a.n. -</div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px dashed rgba(74,55,40,0.2);display:flex;justify-content:space-between;font-size:13.5px;">
+              <span style="color:var(--brown-deep);">Total Pembayaran</span>
+              <b id="vaTotal">Rp0</b>
+            </div>
+            <p style="font-size:12px;color:var(--brown-deep);opacity:0.75;margin-top:10px;">Transfer sesuai nominal di atas (boleh sampai 3 digit terakhir disesuaikan agar mudah dicek admin), lalu unggah bukti transfer di bawah.</p>
+          </div>
+
+          <div class="proof-box" style="background:#fff;border:1.5px dashed var(--sand);border-radius:14px;padding:20px;text-align:left;margin-bottom:24px;">
+            <div style="font-weight:700;font-size:14px;margin-bottom:4px;">📤 Unggah Bukti Pembayaran</div>
+            <p style="font-size:12.5px;color:var(--brown-deep);opacity:0.75;margin-bottom:14px;">Format gambar (JPG/PNG), maks. 5MB. Bisa diunggah sekarang atau menyusul.</p>
+            <input type="file" id="in-proof" accept="image/*" style="width:100%;font-size:13px;margin-bottom:12px;">
+            <div id="proofPreviewWrap" class="hidden" style="margin-bottom:12px;">
+              <img id="proofPreview" style="max-width:180px;border-radius:10px;border:1px solid var(--sand);display:block;">
+            </div>
+            <button type="button" class="btn btn-dark btn-sm" onclick="uploadProof()" id="btnUploadProof">Unggah Bukti</button>
+            <span id="proofStatus" style="font-size:12.5px;margin-left:10px;color:var(--green-deep);font-weight:600;"></span>
+          </div>
+
+          <div>
+            <button class="btn btn-primary" onclick="resetBookingForm()">Buat Booking Baru</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="logo"><div class="logo-mark">⛰</div>MountainGo Bromo Trip</div>
+          <p style="margin-top:12px;font-size:13.5px;max-width:320px;color:#B8AB9A;">Sahabat perjalananmu menuju keindahan Gunung Bromo, Jawa Timur.</p>
+        </div>
+        <div style="font-size:13.5px;line-height:2;">
+          <div style="font-weight:700;color:var(--mist);margin-bottom:6px;">Kontak</div>
+          <div>WhatsApp: 0823-4081-3786</div>
+          <div>Email: sabiikhamarsya@gmail.com</div>
+          <div>Basecamp: Cemoro Lawang, Probolinggo</div>
+        </div>
+      </div>
+      <p class="fine">© 2026 MountainGo Bromo Trip. Semua hak dilindungi.</p>
+    </div>
+  </footer>
+</div>
+<!-- ============ ADMIN LOGIN MODAL ============ -->
+<div class="overlay hidden" id="loginOverlay">
+  <div class="login-card">
+    <button class="close-x" onclick="closeAdminLogin()">✕</button>
+    <div class="login-icon">🔒</div>
+    <h3>Login Admin</h3>
+    <p class="sub">Masuk untuk mengelola data pemesanan trip.</p>
+    <div class="login-error" id="loginError">Username atau password salah.</div>
+    <form id="loginForm">
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="in-admin-user" placeholder="admin">
+      </div>
+      <div class="field" style="margin-bottom:24px;">
+        <label>Password</label>
+        <input type="password" id="in-admin-pass" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;">Masuk</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ ADMIN DASHBOARD ============ -->
+<div class="admin-page hidden" id="adminPage">
+  <div class="admin-bar">
+    <div class="admin-bar-inner">
+      <div class="logo"><div class="logo-mark">⛰</div>MountainGo <span style="color:var(--orange-light)">Admin</span></div>
+      <button class="btn btn-outline btn-sm" onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+  <div class="admin-main">
+    <div class="section-head" style="margin-bottom:28px;">
+      <p class="eyebrow">Dashboard Admin</p>
+      <h2 style="font-size:28px;">Kelola Pemesanan Trip</h2>
+    </div>
+    <div class="table-card" style="padding:20px 26px;margin-bottom:28px;">
+      <div style="font-weight:700;font-size:13.5px;margin-bottom:10px;color:var(--brown-deep);">🔗 Link Akses</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:13px;">
+        <span style="background:var(--sand-light);padding:8px 12px;border-radius:8px;">Link Customer: <b id="linkCustomer" style="color:var(--orange-deep);"></b></span>
+        <span style="background:var(--sand-light);padding:8px 12px;border-radius:8px;">Link Admin: <b id="linkAdmin" style="color:var(--orange-deep);"></b></span>
+      </div>
+      <div id="storageBanner" style="margin-top:12px;font-size:12.5px;padding:10px 14px;border-radius:10px;"></div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><span>Total Booking</span><b id="stat-total">0</b></div>
+      <div class="stat-card green"><span>Total Pendapatan</span><b id="stat-revenue">Rp0</b></div>
+      <div class="stat-card brown"><span>Booking Pending</span><b id="stat-pending">0</b></div>
+      <div class="stat-card black"><span>Booking Selesai</span><b id="stat-done">0</b></div>
+    </div>
+    <div class="table-card">
+      <div class="table-head">
+        <h3>Data Pesanan Customer</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-dark btn-sm" onclick="exportToExcel()">⬇️ Export ke Excel</button>
+          <button class="btn btn-ghost btn-sm" onclick="loadAndRenderOrders()">↻ Muat Ulang</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table id="orderTable">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Paket</th>
+              <th>Tanggal Trip</th>
+              <th>Peserta</th>
+              <th>Bank Tujuan</th>
+              <th>Bukti Bayar</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="orderTbody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state hidden" id="emptyState">
+        <div class="em-icon">🗒️</div>
+        <div>Belum ada pesanan masuk.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============ MODAL LIHAT BUKTI PEMBAYARAN ============ -->
+<div class="overlay hidden" id="proofOverlay" onclick="if(event.target===this) closeProofModal()">
+  <div class="login-card" style="max-width:420px;text-align:center;">
+    <button class="close-x" onclick="closeProofModal()">✕</button>
+    <h3 style="margin-bottom:16px;">Bukti Pembayaran</h3>
+    <div id="proofModalBody" style="min-height:100px;display:flex;align-items:center;justify-content:center;">
+      <span style="font-size:13px;color:var(--brown-deep);">Memuat...</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const MAX_PEOPLE = 6;
+
+const PACKAGES = [
+  {
+    id:'reguler', name:'Paket Reguler', price:350000, icon:'🚙',
+    desc:'Nikmati keindahan Bromo dengan rute standar bersama rombongan wisatawan lain. Maks. 6 orang per booking.',
+    schedule:'Berangkat 01.00 WIB · Selesai ±10.00 WIB',
+    features:['Jeep 4x4 (sharing, maks. 6 orang)','Penanjakan 1 (sunrise view)','Kawah Bromo','Pasir Berbisik','Guide lokal berpengalaman']
+  },
+  {
+    id:'sunrise', name:'Paket Sunrise', price:450000, icon:'🌅', featured:true,
+    desc:'Kejar momen matahari terbit terbaik dari titik pandang favorit fotografer. Maks. 6 orang per booking.',
+    schedule:'Berangkat 00.00 WIB · Selesai ±09.00 WIB',
+    features:['Jeep 4x4 (sharing, maks. 6 orang)','Sunrise point terbaik','Kawah Bromo','Pasir Berbisik','Savana Teletubbies','Guide lokal berpengalaman']
+  },
+  {
+    id:'private', name:'Paket Private', price:1000000, icon:'⭐',
+    desc:'Perjalanan privat dan fleksibel — bisa berangkat sendirian atau bersama rombongan sendiri, maks. 6 orang per jeep.',
+    schedule:'Jadwal fleksibel, rekomendasi berangkat 00.00–01.00 WIB · durasi ±9 jam',
+    features:['Jeep 4x4 privat (tidak sharing, maks. 6 orang)','Sunrise point eksklusif','Kawah Bromo','Pasir Berbisik','Savana Teletubbies','Guide privat & fleksibel waktu','Snack & makanan selama trip']
+  }
+];
+
+const DESTINATIONS = [
+  {icon:'🌄', name:'Penanjakan 1', desc:'Titik pandang legendaris untuk menyaksikan matahari terbit di atas lautan awan dengan latar Gunung Semeru.'},
+  {icon:'🌋', name:'Kawah Bromo', desc:'Kawah aktif dengan asap belerang, bisa didekati lewat ratusan anak tangga menuju bibir kawah.'},
+  {icon:'🏜️', name:'Pasir Berbisik', desc:'Hamparan pasir vulkanik luas yang berbisik saat angin bertiup — lokasi favorit untuk foto sinematik.'},
+  {icon:'🌾', name:'Savana Teletubbies', desc:'Padang rumput hijau menggelombang yang kontras dengan gersangnya kaldera Bromo.'}
+];
+
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'admin123';
+const ORDERS_KEY = 'mountaingo_orders';
+
+// ⚠️ EDIT DI SINI kalau nama pemilik rekening perlu disesuaikan.
+const ADMIN_BANKS = [
+  { id:'bni', label:'Bank BNI', accountNumber:'1484045192', accountName:'SABIIKHA MARSYA ANANDA' },
+  { id:'bca', label:'Bank BCA', accountNumber:'0482680974', accountName:'DINAR SYAHGITA SHERANI' }
+];
+
+let isAdminLoggedIn = false;
+let lastAccountNumber = '';
+let currentProofDataUrl = null;
+let currentBookingId = null;
+
+/* ============ RENDER STATIC CONTENT ============ */
+function renderPackages(){
+  const grid = document.getElementById('pkgGrid');
+  grid.innerHTML = PACKAGES.map(p => `
+    <div class="pkg-card ${p.featured ? 'featured' : ''}">
+      ${p.featured ? '<div class="pkg-badge">PALING FAVORIT</div>' : ''}
+      <div class="pkg-icon">${p.icon}</div>
+      <h3>${p.name}</h3>
+      <p class="pkg-desc">${p.desc}</p>
+      <div class="pkg-price"><b>Rp${p.price.toLocaleString('id-ID')}</b><span> / orang</span></div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--green-deep);background:var(--sand-light);padding:8px 12px;border-radius:10px;margin-bottom:18px;">🕒 ${p.schedule}</div>
+      <ul class="pkg-features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
+      <button class="btn btn-primary" onclick="selectPackage('${p.id}')" style="width:100%;">Pilih Paket Ini</button>
+    </div>
+  `).join('');
+
+  const select = document.getElementById('in-package');
+  PACKAGES.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = `${p.name} — Rp${p.price.toLocaleString('id-ID')}/orang`;
+    select.appendChild(opt);
+  });
+}
+
+function renderBankOptions(){
+  const select = document.getElementById('in-payment');
+  ADMIN_BANKS.forEach(b => {
+    const opt = document.createElement('option');
+    opt.value = b.id;
+    opt.textContent = `${b.label} — ${b.accountNumber}`;
+    select.appendChild(opt);
+  });
+}
+
+function renderDestinations(){
+  const grid = document.getElementById('destGrid');
+  grid.innerHTML = DESTINATIONS.map(d => `
+    <div class="dest-card">
+      <div class="dest-icon">${d.icon}</div>
+      <h4>${d.name}</h4>
+      <p>${d.desc}</p>
+    </div>
+  `).join('');
+}
+
+function selectPackage(id){
+  document.getElementById('in-package').value = id;
+  document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+  updateSummary();
+}
+/* ============ BOOKING FORM LOGIC ============ */
+function updateSummary(){
+  const pkgId = document.getElementById('in-package').value;
+  const people = Math.max(1, parseInt(document.getElementById('in-people').value) || 1);
+  const date = document.getElementById('in-date').value;
+  const pkg = PACKAGES.find(p => p.id === pkgId);
+
+  document.getElementById('sum-package').textContent = pkg ? pkg.name : '—';
+  document.getElementById('sum-price').textContent = pkg ? 'Rp' + pkg.price.toLocaleString('id-ID') : 'Rp0';
+  document.getElementById('sum-people').textContent = people;
+  document.getElementById('sum-date').textContent = date ? formatDate(date) : '—';
+  const total = pkg ? pkg.price * people : 0;
+  document.getElementById('sum-total').textContent = 'Rp' + total.toLocaleString('id-ID');
+}
+
+function formatDate(iso){
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+}
+
+['in-package','in-people','in-date'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateSummary);
+  document.getElementById(id).addEventListener('change', updateSummary);
+});
+
+function validateField(id, condition){
+  const field = document.getElementById(id);
+  if(!condition){ field.classList.add('invalid'); return false; }
+  field.classList.remove('invalid');
+  return true;
+}
+
+document.getElementById('bookingForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  const name = document.getElementById('in-name').value.trim();
+  const wa = document.getElementById('in-wa').value.trim();
+  const email = document.getElementById('in-email').value.trim();
+  const date = document.getElementById('in-date').value;
+  const people = parseInt(document.getElementById('in-people').value) || 0;
+  const pkgId = document.getElementById('in-package').value;
+  const payment = document.getElementById('in-payment').value;
+  const notes = document.getElementById('in-notes').value.trim();
+
+  let valid = true;
+  valid = validateField('f-name', name.length >= 3) && valid;
+  valid = validateField('f-wa', /^[0-9+]{9,15}$/.test(wa)) && valid;
+  valid = validateField('f-email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && valid;
+  valid = validateField('f-date', !!date) && valid;
+  valid = validateField('f-people', people >= 1 && people <= MAX_PEOPLE) && valid;
+  valid = validateField('f-package', !!pkgId) && valid;
+  valid = validateField('f-payment', !!payment) && valid;
+
+  if(!valid) return;
+
+  const pkg = PACKAGES.find(p => p.id === pkgId);
+  const bank = ADMIN_BANKS.find(b => b.id === payment);
+  const total = pkg.price * people;
+  const bookingId = 'BRM' + Date.now().toString().slice(-8);
+  const order = {
+    id: bookingId,
+    name, whatsapp: wa, email,
+    date, dateLabel: formatDate(date),
+    people, packageId: pkg.id, packageName: pkg.name, price: pkg.price,
+    paymentBankId: bank.id, paymentBankLabel: bank.label,
+    paymentAccountNumber: bank.accountNumber, paymentAccountName: bank.accountName,
+    proofUploaded: false,
+    notes, total,
+    status: 'Pending',
+    createdAt: new Date().toISOString()
+  };
+
+  const submitBtn = e.target.querySelector('button[type=submit]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Memproses...';
+
+  try{
+    const saved = await createOrderRemote(order);
+
+    if(!saved){
+      showToast('Booking dibuat, tapi gagal tersimpan ke server. Coba lagi.');
+      return;
+    }
+
+    currentBookingId = bookingId;
+    currentProofDataUrl = null;
+    document.getElementById('formWrap').classList.add('hidden');
+    document.getElementById('successBox').classList.remove('hidden');
+    document.getElementById('successId').textContent = order.id;
+    document.getElementById('vaBankLabel').textContent = bank.label;
+    document.getElementById('vaNumber').textContent = bank.accountNumber;
+    document.getElementById('vaHolder').textContent = 'a.n. ' + bank.accountName;
+    document.getElementById('vaTotal').textContent = 'Rp' + total.toLocaleString('id-ID');
+    document.getElementById('in-proof').value = '';
+    document.getElementById('proofPreviewWrap').classList.add('hidden');
+    document.getElementById('proofStatus').textContent = '';
+    lastAccountNumber = bank.accountNumber;
+    showToast('Booking berhasil dibuat!');
+  }catch(err){
+    console.error('Gagal menyimpan booking:', err);
+    showToast('Gagal menyimpan booking, coba lagi.');
+  }finally{
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Pesan Tiket Sekarang';
+  }
+});
+
+function copyAccountNumber(){
+  if(!lastAccountNumber) return;
+  navigator.clipboard.writeText(lastAccountNumber).then(()=> showToast('Nomor rekening disalin!'));
+}
+
+/* ============ UPLOAD BUKTI PEMBAYARAN ============ */
+document.getElementById('in-proof').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  if(!file.type.startsWith('image/')){
+    showToast('File harus berupa gambar (JPG/PNG).');
+    e.target.value = '';
+    return;
+  }
+  if(file.size > 5 * 1024 * 1024){
+    showToast('Ukuran gambar maksimal 5MB.');
+    e.target.value = '';
+    return;
+  }
+  compressImage(file, 1000, 0.75).then(dataUrl => {
+    currentProofDataUrl = dataUrl;
+    const img = document.getElementById('proofPreview');
+    img.src = dataUrl;
+    document.getElementById('proofPreviewWrap').classList.remove('hidden');
+  }).catch(() => showToast('Gagal membaca gambar, coba file lain.'));
+});
+
+function compressImage(file, maxWidth, quality){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if(w > maxWidth){
+          h = Math.round(h * (maxWidth / w));
+          w = maxWidth;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadProof(){
+  if(!currentProofDataUrl){
+    showToast('Pilih gambar bukti pembayaran dulu.');
+    return;
+  }
+  if(!currentBookingId) return;
+
+  const btn = document.getElementById('btnUploadProof');
+  btn.disabled = true;
+  btn.textContent = 'Mengunggah...';
+
+  try{
+    const savedProof = await saveProofRemote(currentBookingId, currentProofDataUrl);
+    if(!savedProof){
+      showToast('Gagal mengunggah bukti, coba lagi.');
+      return;
+    }
+    document.getElementById('proofStatus').textContent = '✓ Bukti pembayaran berhasil diunggah';
+    showToast('Bukti pembayaran berhasil diunggah!');
+  }catch(err){
+    console.error('Gagal upload bukti:', err);
+    showToast('Gagal mengunggah bukti, coba lagi.');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'Unggah Bukti';
+  }
+}
+
+function resetBookingForm(){
+  document.getElementById('bookingForm').reset();
+  document.getElementById('in-people').value = 1;
+  document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+  updateSummary();
+  document.getElementById('formWrap').classList.remove('hidden');
+  document.getElementById('successBox').classList.add('hidden');
+  currentBookingId = null;
+  currentProofDataUrl = null;
+  document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+}
+
+/* ============ STORAGE HELPERS ============ */
+// ⚠️ EDIT DI SINI setelah deploy Google Apps Script kamu (lihat panduan di
+// bawah file ini / chat). Tempel URL Web App-nya di sini supaya SEMUA
+// booking tersimpan di satu Google Sheet dan otomatis ke-update di admin
+// manapun/device manapun yang buka website ini.
+const API_URL = ''; // contoh: 'https://script.google.com/macros/s/AKfycb.../exec'
+
+// Prioritas mode penyimpanan:
+// 1) 'server'  -> API_URL sudah diisi, pakai Google Sheets (sinkron semua device)
+// 2) 'cloud'   -> dibuka sebagai Claude Artifact, pakai window.storage
+// 3) 'local'   -> fallback localStorage per-browser (TIDAK sinkron antar device)
+const STORAGE_MODE = API_URL
+  ? 'server'
+  : (typeof window.storage !== 'undefined' && window.storage && typeof window.storage.get === 'function')
+    ? 'cloud' : 'local';
+
+/* ---- fallback localStorage (mode 'local') ---- */
+function localGetOrders(){
+  try{
+    const raw = localStorage.getItem(ORDERS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(err){ return []; }
+}
+function localSetOrders(orders){
+  try{
+    localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    return true;
+  }catch(err){ return false; }
+}
+function proofKey(bookingId){ return 'proof_' + bookingId; }
+
+/* ---- pemanggil Google Apps Script (mode 'server') ---- */
+// Catatan teknis: POST dikirim dengan Content-Type text/plain agar browser
+// tidak melakukan CORS preflight (OPTIONS) yang tidak didukung Apps Script.
+async function apiGet(params){
+  const url = API_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url);
+  return res.json();
+}
+async function apiPost(payload){
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+  return res.json();
+}
+
+/* ---- API terpadu (dipakai oleh seluruh halaman) ---- */
+async function loadOrders(){
+  if(STORAGE_MODE === 'server'){
+    try{
+      const data = await apiGet({ action:'list' });
+      return Array.isArray(data.orders) ? data.orders : [];
+    }catch(err){
+      console.error('loadOrders (server) error:', err);
+      return [];
+    }
+  }
+  if(STORAGE_MODE === 'local') return localGetOrders();
+  try{
+    const res = await window.storage.get(ORDERS_KEY, true);
+    return res && res.value ? JSON.parse(res.value) : [];
+  }catch(err){
+    console.error('loadOrders error:', err);
+    return [];
+  }
+}
+
+async function createOrderRemote(order){
+  if(STORAGE_MODE === 'server'){
+    try{
+      const data = await apiPost({ action:'create', order });
+      return !!data.success;
+    }catch(err){
+      console.error('createOrderRemote error:', err);
+      return false;
+    }
+  }
+  const orders = await loadOrders();
+  orders.unshift(order);
+  if(STORAGE_MODE === 'local') return localSetOrders(orders);
+  try{
+    const res = await window.storage.set(ORDERS_KEY, JSON.stringify(orders), true);
+    return !!res;
+  }catch(err){
+    console.error('createOrderRemote (cloud) error:', err);
+    return false;
+  }
+}
+
+async function updateStatusRemote(id, status){
+  if(STORAGE_MODE === 'server'){
+    try{
+      const data = await apiPost({ action:'updateStatus', id, status });
+      return !!data.success;
+    }catch(err){
+      console.error('updateStatusRemote error:', err);
+      return false;
+    }
+  }
+  const orders = await loadOrders();
+  const idx = orders.findIndex(o => o.id === id);
+  if(idx === -1) return false;
+  orders[idx].status = status;
+  if(STORAGE_MODE === 'local') return localSetOrders(orders);
+  try{
+    const res = await window.storage.set(ORDERS_KEY, JSON.stringify(orders), true);
+    return !!res;
+  }catch(err){
+    console.error('updateStatusRemote (cloud) error:', err);
+    return false;
+  }
+}
+
+async function deleteOrderRemote(id){
+  if(STORAGE_MODE === 'server'){
+    try{
+      const data = await apiPost({ action:'delete', id });
+      return !!data.success;
+    }catch(err){
+      console.error('deleteOrderRemote error:', err);
+      return false;
+    }
+  }
+  const orders = await loadOrders();
+  const filtered = orders.filter(o => o.id !== id);
+  if(STORAGE_MODE === 'local'){
+    localStorage.removeItem(proofKey(id));
+    return localSetOrders(filtered);
+  }
+  try{
+    await window.storage.delete(proofKey(id), true).catch(()=>{});
+    const res = await window.storage.set(ORDERS_KEY, JSON.stringify(filtered), true);
+    return !!res;
+  }catch(err){
+    console.error('deleteOrderRemote (cloud) error:', err);
+    return false;
+  }
+}
+
+async function saveProofRemote(bookingId, dataUrl){
+  if(STORAGE_MODE === 'server'){
+    try{
+      const data = await apiPost({ action:'uploadProof', id: bookingId, dataUrl });
+      return !!data.success;
+    }catch(err){
+      console.error('saveProofRemote error:', err);
+      return false;
+    }
+  }
+  if(STORAGE_MODE === 'local'){
+    try{
+      localStorage.setItem(proofKey(bookingId), dataUrl);
+    }catch(err){
+      console.error('saveProofRemote local error:', err);
+      return false;
+    }
+  }else{
+    try{
+      const res = await window.storage.set(proofKey(bookingId), dataUrl, true);
+      if(!res) return false;
+    }catch(err){
+      console.error('saveProofRemote (cloud) error:', err);
+      return false;
+    }
+  }
+  // tandai proofUploaded=true di data order (mode local & cloud saja;
+  // mode server sudah ditangani otomatis oleh Apps Script)
+  const orders = await loadOrders();
+  const idx = orders.findIndex(o => o.id === bookingId);
+  if(idx > -1){
+    orders[idx].proofUploaded = true;
+    if(STORAGE_MODE === 'local') localSetOrders(orders);
+    else await window.storage.set(ORDERS_KEY, JSON.stringify(orders), true).catch(()=>{});
+  }
+  return true;
+}
+
+async function loadProofRemote(bookingId){
+  if(STORAGE_MODE === 'server'){
+    try{
+      const data = await apiGet({ action:'getProof', id: bookingId });
+      return data.dataUrl || null;
+    }catch(err){
+      console.error('loadProofRemote error:', err);
+      return null;
+    }
+  }
+  if(STORAGE_MODE === 'local'){
+    try{ return localStorage.getItem(proofKey(bookingId)); }catch(err){ return null; }
+  }
+  try{
+    const res = await window.storage.get(proofKey(bookingId), true);
+    return res && res.value ? res.value : null;
+  }catch(err){
+    console.error('loadProofRemote error:', err);
+    return null;
+  }
+}
+/* ============ ADMIN LOGIN ============ */
+function openAdminLogin(){
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginError').style.display = 'none';
+}
+function closeAdminLogin(){
+  document.getElementById('loginOverlay').classList.add('hidden');
+  document.getElementById('loginForm').reset();
+}
+
+let adminPollTimer = null;
+
+document.getElementById('loginForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const u = document.getElementById('in-admin-user').value.trim();
+  const p = document.getElementById('in-admin-pass').value;
+  if(u === ADMIN_USER && p === ADMIN_PASS){
+    isAdminLoggedIn = true;
+    closeAdminLogin();
+    document.getElementById('site').classList.add('hidden');
+    document.getElementById('adminPage').classList.remove('hidden');
+    window.scrollTo(0,0);
+    loadAndRenderOrders();
+    clearInterval(adminPollTimer);
+    adminPollTimer = setInterval(loadAndRenderOrders, 15000); // auto-refresh tiap 15 detik
+  }else{
+    document.getElementById('loginError').style.display = 'block';
+  }
+});
+
+function adminLogout(){
+  isAdminLoggedIn = false;
+  clearInterval(adminPollTimer);
+  document.getElementById('adminPage').classList.add('hidden');
+  document.getElementById('site').classList.remove('hidden');
+  window.scrollTo(0,0);
+  showToast('Berhasil logout.');
+}
+
+/* ============ ADMIN DASHBOARD ============ */
+async function loadAndRenderOrders(){
+  const orders = await loadOrders();
+  renderStats(orders);
+  renderTable(orders);
+  window.__currentOrders = orders;
+}
+
+function exportToExcel(){
+  const orders = window.__currentOrders || [];
+  if(orders.length === 0){
+    showToast('Belum ada data booking untuk diexport.');
+    return;
+  }
+  const rows = orders.map(o => ({
+    'ID Booking': o.id,
+    'Nama': o.name,
+    'WhatsApp': o.whatsapp,
+    'Email': o.email,
+    'Paket': o.packageName,
+    'Tanggal Trip': o.dateLabel || o.date,
+    'Jumlah Peserta': o.people,
+    'Bank Tujuan': o.paymentBankLabel || '-',
+    'No. Rekening Tujuan': o.paymentAccountNumber || '-',
+    'Bukti Bayar': o.proofUploaded ? 'Sudah Upload' : 'Belum',
+    'Total Harga': o.total,
+    'Status': o.status,
+    'Catatan': o.notes || '',
+    'Waktu Booking': o.createdAt
+  }));
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws['!cols'] = [
+    {wch:14},{wch:22},{wch:16},{wch:24},{wch:16},{wch:18},
+    {wch:14},{wch:14},{wch:18},{wch:14},{wch:14},{wch:14},{wch:26},{wch:20}
+  ];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Booking');
+  const today = new Date().toISOString().split('T')[0];
+  XLSX.writeFile(wb, `MountainGo-Booking-${today}.xlsx`);
+  showToast('File Excel berhasil diunduh!');
+}
+
+function renderStats(orders){
+  const total = orders.length;
+  const revenue = orders.filter(o => o.status !== 'Dibatalkan').reduce((sum,o) => sum + o.total, 0);
+  const pending = orders.filter(o => o.status === 'Pending').length;
+  const done = orders.filter(o => o.status === 'Selesai').length;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-revenue').textContent = 'Rp' + revenue.toLocaleString('id-ID');
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-done').textContent = done;
+}
+
+function renderTable(orders){
+  const tbody = document.getElementById('orderTbody');
+  const empty = document.getElementById('emptyState');
+  const table = document.getElementById('orderTable');
+
+  if(orders.length === 0){
+    table.classList.add('hidden');
+    empty.classList.remove('hidden');
+    tbody.innerHTML = '';
+    return;
+  }
+  table.classList.remove('hidden');
+  empty.classList.add('hidden');
+
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td class="cell-name">
+        <b>${escapeHtml(o.name)}</b>
+        <span>${escapeHtml(o.whatsapp)} · ${escapeHtml(o.email)}</span>
+      </td>
+      <td>${escapeHtml(o.packageName)}</td>
+      <td>${escapeHtml(o.dateLabel || o.date)}</td>
+      <td>${o.people} orang</td>
+      <td>${escapeHtml(o.paymentBankLabel || '-')}<br><span style="font-family:monospace;font-size:12px;color:var(--brown-deep);">${escapeHtml(o.paymentAccountNumber || '')}</span></td>
+      <td>
+        ${o.proofUploaded
+          ? `<button class="btn btn-ghost btn-sm" onclick="viewProof('${o.id}')">Lihat Bukti</button>`
+          : `<span style="font-size:12px;color:var(--brown-deep);opacity:0.6;">Belum ada</span>`}
+      </td>
+      <td><b>Rp${o.total.toLocaleString('id-ID')}</b></td>
+      <td>
+        <select class="status-select" onchange="changeStatus('${o.id}', this.value)">
+          ${['Pending','Dikonfirmasi','Selesai','Dibatalkan'].map(s =>
+            `<option value="${s}" ${o.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td><button class="btn-danger" onclick="deleteOrder('${o.id}')">Hapus</button></td>
+    </tr>
+  `).join('');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : str;
+  return div.innerHTML;
+}
+
+async function changeStatus(id, newStatus){
+  const ok = await updateStatusRemote(id, newStatus);
+  if(ok){
+    showToast('Status pesanan diperbarui.');
+  }else{
+    showToast('Gagal memperbarui status, coba lagi.');
+  }
+  loadAndRenderOrders();
+}
+
+async function deleteOrder(id){
+  if(!confirm('Yakin ingin menghapus pesanan ini?')) return;
+  const ok = await deleteOrderRemote(id);
+  showToast(ok ? 'Pesanan berhasil dihapus.' : 'Gagal menghapus pesanan, coba lagi.');
+  loadAndRenderOrders();
+}
+
+async function viewProof(bookingId){
+  document.getElementById('proofOverlay').classList.remove('hidden');
+  const body = document.getElementById('proofModalBody');
+  body.innerHTML = '<span style="font-size:13px;color:var(--brown-deep);">Memuat...</span>';
+  const dataUrl = await loadProofRemote(bookingId);
+  if(dataUrl){
+    body.innerHTML = `<img src="${dataUrl}" style="max-width:100%;border-radius:10px;border:1px solid var(--sand);">`;
+  }else{
+    body.innerHTML = '<span style="font-size:13px;color:var(--brown-deep);">Bukti tidak ditemukan.</span>';
+  }
+}
+
+function closeProofModal(){
+  document.getElementById('proofOverlay').classList.add('hidden');
+}
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+/* ============ INIT ============ */
+function init(){
+  renderPackages();
+  renderBankOptions();
+  renderDestinations();
+  updateSummary();
+  // set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('in-date').setAttribute('min', today);
+
+  // set shareable links (base link = customer, #admin = admin)
+  const baseUrl = window.location.href.split('#')[0];
+  document.getElementById('linkCustomer').textContent = baseUrl;
+  document.getElementById('linkAdmin').textContent = baseUrl + '#admin';
+
+  const banner = document.getElementById('storageBanner');
+  if(banner){
+    if(STORAGE_MODE === 'server'){
+      banner.style.background = '#DCE9DC';
+      banner.style.color = '#2F4A2A';
+      banner.textContent = '✓ Mode Server (Google Sheets) aktif — semua booking tersimpan terpusat dan otomatis ter-update di admin manapun/device manapun yang membuka link ini.';
+    }else if(STORAGE_MODE === 'cloud'){
+      banner.style.background = '#DCE9DC';
+      banner.style.color = '#2F4A2A';
+      banner.textContent = '✓ Mode Cloud (Claude Artifact) aktif — data booking tersimpan di server dan bisa dilihat admin dari perangkat mana pun lewat link Artifact ini.';
+    }else{
+      banner.style.background = '#F5D9D2';
+      banner.style.color = '#8A2E1C';
+      banner.textContent = '⚠ Mode Lokal — API_URL belum diisi, jadi data booking hanya tersimpan di browser ini saja (tidak sinkron antar perangkat/device). Isi API_URL dengan link Google Apps Script di kode (cari komentar "EDIT DI SINI" dekat API_URL) supaya semua device tersinkron.';
+    }
+  }
+
+  // if opened directly with #admin, show login automatically
+  if(window.location.hash === '#admin'){
+    openAdminLogin();
+  }
+}
+init();
+</script>
+</body>
+</html>
